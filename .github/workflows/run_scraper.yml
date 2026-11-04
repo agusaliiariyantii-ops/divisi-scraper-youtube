@@ -1,0 +1,34 @@
+name: Jalankan Divisi Scraper YouTube
+
+on:
+  workflow_dispatch: # Memungkinkan tombol 'Run workflow' diklik secara manual kapan saja
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Ambil Kode dari Gudang
+        uses: actions/checkout@v3
+
+      - name: Siapkan Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instal Pustaka yt-dlp
+        run: |
+          pip install yt-dlp
+
+      - name: Jalankan Mesin Scraper
+        run: |
+          python scrape_shorts.py
+
+      - name: Simpan Hasil File CSV Otomatis
+        run: |
+          git config --global user.name "Bot Perusahaan"
+          git config --global user.email "bot@berkahistiqomah.com"
+          git add data_youtube_shorts.csv
+          git commit -m "Update hasil scrape data shorts terbaru" || echo "Tidak ada perubahan data"
+          git push
