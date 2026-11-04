@@ -56,7 +56,7 @@ jobs:
         run: |
           git config --global user.name "Bot Perusahaan"
           git config --global user.email "bot@berkahistiqomah.com"
-          git clone https://x-access-token:${TOKEN_RAHASIA}@github.com/agusaliariyantii-ops/divisi-download.git temp_download
+          git clone https://${TOKEN_RAHASIA}@github.com/agusaliariyantii-ops/divisi-download.git temp_download
           cp data_youtube_shorts.csv temp_download/
           cd temp_download
           git add data_youtube_shorts.csv
