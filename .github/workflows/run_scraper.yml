@@ -49,3 +49,22 @@ jobs:
           git add data_youtube_shorts.csv
           git commit -m "Update hasil scrape data shorts terbaru" || echo "Tidak ada perubahan data"
           git push
+          - name: Simpan Hasil File CSV Otomatis
+      run: |
+        git config --global user.name "Bot Perusahaan"
+        git config --global user.email "bot@berkahistiqomah.com"
+        git add data_youtube_shorts.csv
+        git commit -m "Update hasil scrape data shorts terbaru" || echo "Tidak ada perubahan data"
+        git push
+    - name: Kirim Data ke Divisi Download
+    env:
+  TOKEN_RAHASIA: ${{ secrets.MY_GITHUB_TOKEN }}
+  run: |
+        git config --global user.name "Bot Perusahaan"
+        git config --global user.email "bot@berkahistiqomah.com"
+        git clone https://x-access-token:${TOKEN_RAHASIA}@github.com/agusaliariyantii-ops/divisi-download.git temp_download
+        cp data_youtube_shorts.csv temp_download/
+        cd temp_download
+        git add data_youtube_shorts.csv
+        git commit -m "Terima data CSV baru dari Divisi Scraper YouTube" || echo "Tidak ada perubahan data"
+        git push
