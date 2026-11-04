@@ -2,6 +2,17 @@ name: Jalankan Divisi Scraper YouTube
 
 on:
   workflow_dispatch:
+    inputs:
+      channel_url:
+        description: 'Tempel Link YouTube Disini'
+        required: true
+        default: 'https://www.youtube.com/@Nostalgiback/shorts'
+        type: string
+      max_count:
+        description: 'Jumlah max (kosongkan jika ingin semua)'
+        required: false
+        default: '10'
+        type: string
 
 jobs:
   run-scraper:
@@ -21,9 +32,15 @@ jobs:
         run: |
           pip install yt-dlp
 
-      - name: Jalankan Mesin Scraper
+      - name: Jalankan Mesin Scraper dengan Limit
         run: |
-          python scrape_shorts.py
+          python -c "
+          from scrape_shorts import scrape_youtube_shorts
+          target = '${{ github.event.inputs.channel_url }}'
+          limit_val = '${{ github.event.inputs.max_count }}'
+          limit_num = int(limit_val) if limit_val.strip() else 0
+          scrape_youtube_shorts(target, limit_num)
+          "
 
       - name: Simpan Hasil File CSV Otomatis
         run: |
